@@ -1,1 +1,0 @@
-# django-rest-react-auth

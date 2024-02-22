@@ -18,30 +18,19 @@ class GoogleLoginApi(PublicApiMixin, ApiErrorsMixin, APIView):
         error = serializers.CharField(required=False)
 
     def get(self, request, *args, **kwargs):
-        print("get started")
         input_serializer = self.InputSerializer(data=request.GET)
-        print("validate input serializer")        
-
         input_serializer.is_valid(raise_exception=True)
-
-        print("exception not raised")
         validated_data = input_serializer.validated_data
-
         code = validated_data.get('code')
         error = validated_data.get('error')
-        print("code: ", code)
-        print("error: ", error)
 
         login_url = f'{settings.BASE_FRONTEND_URL}'
-        print("login url: ", login_url)
         
         if error or not code:
-            print("error or not code bad condition -------------------")
             params = urlencode({'error': error})
             return redirect(f'{login_url}?{params}')
 
         redirect_uri = f'{settings.BASE_FRONTEND_URL}/google'
-        print("redirect uri: ", redirect_uri)
         access_token = google_get_access_token(code=code, 
                                                redirect_uri=redirect_uri)
         print("access token: ", access_token)

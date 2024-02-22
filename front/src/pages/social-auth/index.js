@@ -15,7 +15,6 @@ const SocialAuth = () => {
   useEffect(() => {
     const values = queryString.parse(location.search);
     const code = values.code ? values.code : null;
-
     if (code) {
       onGogglelogin();
     }

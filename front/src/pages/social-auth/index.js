@@ -8,11 +8,11 @@ const  BACKEND_API_URL = "http://127.0.0.1:8000"
 
 const SocialAuth = () => {
   let location = useLocation();
-  console.log("location", location);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("location -------", location)
     const values = queryString.parse(location.search);
     const code = values.code ? values.code : null;
     if (code) {
@@ -29,6 +29,20 @@ const SocialAuth = () => {
         navigate('/')
         return res.data;
       })
+      .then((data) => {
+        console.log("data", data)
+        axios.get(`${BACKEND_API_URL}/api/googleUserList/`, {
+          headers: {
+            Authorization: `Bearer ${data.access_token}`
+          }
+        })
+        .then(res => {
+          console.log("response from new endpoint", res)
+        })
+        .catch(err => {
+          console.log("error from new endpoint", err)
+        })
+      })
       .catch((err) => {
         console.log("error", err)
         return err;
@@ -37,7 +51,11 @@ const SocialAuth = () => {
 
   const onGogglelogin = async () => {
     const response = await googleLoginHandler(location.search);
-    console.log(response);
+    // console.log(response);
+    // await axios.get(`${BACKEND_API_URL}/api/googleUserList/`)
+    // .then(res => {
+    //   console.log("response from new endpoint", res)
+    // })
   }
 
   return (

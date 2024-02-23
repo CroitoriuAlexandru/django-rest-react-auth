@@ -19,6 +19,9 @@ const Home = () => {
     const scope = [
       "https://www.googleapis.com/auth/userinfo.email",
       "https://www.googleapis.com/auth/userinfo.profile",
+      "https://www.googleapis.com/auth/admin.directory.user",
+      "https://www.googleapis.com/auth/admin.directory.user.readonly",
+      "https://www.googleapis.com/auth/cloud-platform",
     ].join(" ");
 
     const params = new URLSearchParams({
@@ -39,6 +42,7 @@ const Home = () => {
     localStorage.clear(); // Clear localStorage when the button is clicked
     setUsername("")
   };
+
   return (
     <div className="flex flex-col items-center justify-center h-screen">
        {!username &&  <button
